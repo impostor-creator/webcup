@@ -157,7 +157,7 @@ $currentUser = auth_user();
           <!-- HERO LEFT -->
           <div class="hero-content reveal">
             <p class="hero-kicker" data-i18n="hero_kicker">
-              Welcome to the future
+              Welcome to the future hhhhh
             </p>
 
             <h1 class="hero-title">
