@@ -5,39 +5,43 @@ require __DIR__ . '/db.php';
 $errors = [];
 $success = false;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $username = trim((string)($_POST['username'] ?? ''));
-  $email    = trim((string)($_POST['email'] ?? ''));
-  $pass1    = (string)($_POST['password'] ?? '');
-  $pass2    = (string)($_POST['password_confirm'] ?? '');
+// assumes you already have: session_start(); and $pdo (PDO connection)
+$errors = [];
 
-  // ✅ Requirements (normal + secure)
-  if ($username === '' || strlen($username) < 3 || strlen($username) > 50) $errors[] = "Username must be 3–50 characters.";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $username = trim($_POST['username'] ?? '');
+  $email    = trim($_POST['email'] ?? '');
+  $pass1    = $_POST['password'] ?? '';
+  $pass2    = $_POST['password_confirm'] ?? '';
+
+  // Basic validation (simple + sane)
+  if ($username === '' || strlen($username) < 3) $errors[] = "Username must be at least 3 characters.";
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Enter a valid email address.";
   if (strlen($pass1) < 8) $errors[] = "Password must be at least 8 characters.";
-  if (!preg_match('/[A-Z]/', $pass1)) $errors[] = "Password must contain at least one uppercase letter.";
-  if (!preg_match('/[a-z]/', $pass1)) $errors[] = "Password must contain at least one lowercase letter.";
-  if (!preg_match('/[0-9]/', $pass1)) $errors[] = "Password must contain at least one number.";
   if ($pass1 !== $pass2) $errors[] = "Passwords do not match.";
 
   if (!$errors) {
-    // Check unique username/email
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1");
+    // Unique check
+    $stmt = $pdo->prepare("SELECT 1 FROM users WHERE username = ? OR email = ? LIMIT 1");
     $stmt->execute([$username, $email]);
-    if ($stmt->fetch()) {
+
+    if ($stmt->fetchColumn()) {
       $errors[] = "Username or email already exists.";
     } else {
+      // Insert user
       $hash = password_hash($pass1, PASSWORD_DEFAULT);
+
       $ins = $pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
       $ins->execute([$username, $email, $hash]);
 
-      // Auto-login after register
+      // Auto login
       $_SESSION['user_id'] = (int)$pdo->lastInsertId();
       header("Location: dashboard.php");
       exit;
     }
   }
 }
+
 ?>
 <!doctype html>
 <html lang="en">
