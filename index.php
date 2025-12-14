@@ -52,7 +52,6 @@ $currentUser = auth_user();
           <a href="#features" class="nav-link" data-i18n="nav_features">Features</a>
           <a href="#gallery" class="nav-link" data-i18n="nav_gallery">Punks</a>
           <a href="feedback.php" class="nav-link" data-i18n="nav_feedback">Feedback</a>
-          <a href="about.php" class="nav-link" data-i18n="nav_about">About</a>
         </nav>
 
         <!-- RIGHT SIDE CONTROLS -->
@@ -512,107 +511,6 @@ $currentUser = auth_user();
       </div>
     </section>
 
-    <!-- =====================================================
-         WORKFLOW / STEPS SECTION
-    ========================================================== -->
-    <section class="section">
-      <div class="section-header">
-        <h2>How you can grow this project</h2>
-        <p>
-          Here is one possible roadmap. You can ignore it, change it, or use it
-          as inspiration for your own plan.
-        </p>
-      </div>
-
-      <div class="about-story-inner">
-        <article class="card reveal">
-          <h3>Step 1 · Customize visuals</h3>
-          <p>
-            Replace placeholder images and text, adjust colors and spacing to
-            match your style.
-          </p>
-        </article>
-
-        <article class="card reveal">
-          <h3>Step 2 · Connect a backend</h3>
-          <p>
-            Swap the fake login and feedback storage for your own API or
-            database. Keep the same UI.
-          </p>
-        </article>
-
-        <article class="card reveal">
-          <h3>Step 3 · Add real data</h3>
-          <p>
-            Feed the user and admin dashboards with live stats, lists, or
-            analytics from your system.
-          </p>
-        </article>
-
-        <article class="card reveal">
-          <h3>Step 4 · Iterate &amp; ship</h3>
-          <p>
-            Refine the UX, performance and design until it feels ready to show
-            friends, teammates or clients.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- =====================================================
-         FINAL CTA SECTION
-    ========================================================== -->
-    <section class="section cta-section">
-      <div class="cta-inner reveal">
-        <h2>Ready to customize everything?</h2>
-        <p>
-          Every image, sentence, color and layout block here is just a placeholder.
-          Keep what you like, remove what you don't, and plug in your own ideas.
-        </p>
-        <div class="hero-actions">
-          <a href="about.html" class="btn btn-primary">Learn more about this setup</a>
-          <a href="feedback.php" class="btn btn-ghost">Leave feedback</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- =====================================================
-         GLOBAL ASSISTANT & COMMAND PALETTE
-    ========================================================== -->
-    <button class="assistant-toggle" id="assistantToggle" aria-label="Open Nova assistant">
-      ✦
-    </button>
-
-    <div class="assistant-panel" id="assistantPanel" aria-hidden="true">
-      <div class="assistant-header">
-        <div class="assistant-title">Nova helper</div>
-        <button class="assistant-close" id="assistantClose" aria-label="Close assistant">×</button>
-      </div>
-      <div class="assistant-body">
-        <div class="assistant-messages" id="assistantMessages">
-          <div class="assistant-message assistant-message-bot">
-            <p>Hi! I'm your IAstroMatch helper. Ask what you can do on this page.</p>
-          </div>
-        </div>
-        <form class="assistant-form" id="assistantForm">
-          <input type="text" id="assistantInput" placeholder="Example: What can I explore here?" autocomplete="off" />
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="command-palette" id="commandPalette" aria-hidden="true">
-      <div class="command-panel" role="dialog" aria-modal="true" aria-labelledby="commandTitle">
-        <div class="command-header">
-          <span id="commandTitle">Quick command palette</span>
-          <span class="command-hint">Ctrl + K</span>
-        </div>
-        <div class="command-input-wrapper">
-          <input type="text" id="commandInput" placeholder="Type a command, page, or theme..." autocomplete="off" />
-        </div>
-        <ul class="command-list" id="commandList" role="listbox"></ul>
-      </div>
-    </div>
 
     <!-- =====================================================
          GLOBAL FOOTER
