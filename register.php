@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
         </div>
 
-        <button class="btn" type="submit">Register</button>
+        <button href="login.php" class="btn" type="submit">Register</button>
 
         <div class="hint">
           Password must include: uppercase, lowercase, number, and 8+ characters.
