@@ -1,0 +1,198 @@
+/* ============================================================
+   IAstroMatch add-on schema for existing `novasphere`
+   - Creates missing tables only
+   - Adds missing columns to existing `users` only
+   ============================================================ */
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+/* ---------- 1) SPECIES ---------- */
+CREATE TABLE IF NOT EXISTS species (
+  species_id INT AUTO_INCREMENT PRIMARY KEY,
+  species_name VARCHAR(50) NOT NULL UNIQUE,
+  biological_class VARCHAR(50) NOT NULL,
+  description TEXT,
+  morphology ENUM('Soft','Plant','Armor','Gelatinous','Amorphous') NOT NULL,
+  communication_method ENUM('Neural','Chemical','Bioluminescent','Vibration','Pheromones') NOT NULL,
+  reproduction_method VARCHAR(30) NOT NULL,
+  primary_need ENUM('Sunlight','Nutrients','Humidity','Mental','Energy','Minerals','Symbiosis') NOT NULL,
+  toxicity_level INT DEFAULT 1,
+  consciousness_type ENUM('Individual','Collective','Hive','Symbiotic') NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CHECK (toxicity_level BETWEEN 1 AND 10)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 2) ECOSYSTEMS ---------- */
+CREATE TABLE IF NOT EXISTS ecosystems (
+  ecosystem_id INT AUTO_INCREMENT PRIMARY KEY,
+  ecosystem_name VARCHAR(50) NOT NULL UNIQUE,
+  description TEXT,
+  atmosphere_type ENUM('Standard','CO2Rich','HighHumidity','LowOxygen','Variable') NOT NULL,
+  temperature_range ENUM('Cold','Moderate','Warm','Hot','Variable') NOT NULL,
+  humidity_level ENUM('Dry','Moderate','Humid','Saturated') NOT NULL,
+  light_condition ENUM('Dark','Low','Moderate','Bright') NOT NULL,
+  pressure_level ENUM('Low','Normal','High','Variable') NOT NULL,
+  special_features TEXT,
+  danger_level INT DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CHECK (danger_level BETWEEN 1 AND 10)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 3) SPECIES_ECOSYSTEM_COMPATIBILITY ---------- */
+CREATE TABLE IF NOT EXISTS species_ecosystem_compatibility (
+  compatibility_id INT AUTO_INCREMENT PRIMARY KEY,
+  species_id INT NOT NULL,
+  ecosystem_id INT NOT NULL,
+  compatibility_type ENUM('Primary','Alternative','Temporary','Dangerous') NOT NULL,
+  comfort_score INT NOT NULL,
+  survival_hours INT NULL,
+  notes TEXT,
+  UNIQUE KEY uq_species_ecosystem (species_id, ecosystem_id),
+  CONSTRAINT fk_sec_species FOREIGN KEY (species_id) REFERENCES species(species_id) ON DELETE CASCADE,
+  CONSTRAINT fk_sec_ecosystem FOREIGN KEY (ecosystem_id) REFERENCES ecosystems(ecosystem_id) ON DELETE CASCADE,
+  CHECK (comfort_score BETWEEN 0 AND 100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 4) SPECIES_COMPATIBILITY_RULES ---------- */
+CREATE TABLE IF NOT EXISTS species_compatibility_rules (
+  rule_id INT AUTO_INCREMENT PRIMARY KEY,
+  species_a_id INT NOT NULL,
+  species_b_id INT NOT NULL,
+  interaction_type ENUM('Symbiotic','Compatible','Neutral','Competitive','Predatory','Lethal') NOT NULL,
+  base_score INT NOT NULL,
+  description TEXT NOT NULL,
+  risks TEXT,
+  benefits TEXT,
+  UNIQUE KEY uq_species_pair (species_a_id, species_b_id),
+  CONSTRAINT fk_scr_species_a FOREIGN KEY (species_a_id) REFERENCES species(species_id) ON DELETE CASCADE,
+  CONSTRAINT fk_scr_species_b FOREIGN KEY (species_b_id) REFERENCES species(species_id) ON DELETE CASCADE,
+  CHECK (species_a_id <> species_b_id),
+  CHECK (base_score BETWEEN -100 AND 100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 5) EXTEND EXISTING users TABLE (DO NOT RECREATE) ----------
+   Adds only columns that might be missing.
+   Works even if some already exist.
+*/
+DELIMITER $$
+
+CREATE PROCEDURE add_col_if_missing(
+  IN p_table VARCHAR(64),
+  IN p_col   VARCHAR(64),
+  IN p_def   TEXT
+)
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = p_table
+      AND COLUMN_NAME = p_col
+  ) THEN
+    SET @sql = CONCAT('ALTER TABLE `', p_table, '` ADD COLUMN `', p_col, '` ', p_def);
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+  END IF;
+END$$
+
+DELIMITER ;
+
+CALL add_col_if_missing('users','display_name','VARCHAR(100) NULL');
+CALL add_col_if_missing('users','email','VARCHAR(100) NULL');
+CALL add_col_if_missing('users','species_id','INT NULL');
+CALL add_col_if_missing('users','current_ecosystem_id','INT NULL');
+CALL add_col_if_missing('users','communication_pref','VARCHAR(30) NULL');
+CALL add_col_if_missing('users','primary_need','VARCHAR(30) NULL');
+CALL add_col_if_missing('users','bio','TEXT NULL');
+CALL add_col_if_missing('users','seeking_relationship_type',"ENUM('Friendship','Romance','Symbiosis','Research','Alliance') NULL");
+CALL add_col_if_missing('users','has_ecosystem_flexibility','TINYINT(1) NOT NULL DEFAULT 0');
+CALL add_col_if_missing('users','quiz_grades','TEXT NULL'); /* JSON string */
+CALL add_col_if_missing('users','last_login','TIMESTAMP NULL');
+CALL add_col_if_missing('users','match_count','INT NOT NULL DEFAULT 0');
+
+/* Add foreign keys only if they don't already exist */
+DELIMITER $$
+
+CREATE PROCEDURE add_fk_if_missing(
+  IN p_table VARCHAR(64),
+  IN p_fkname VARCHAR(64),
+  IN p_stmt TEXT
+)
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+    WHERE CONSTRAINT_SCHEMA = DATABASE()
+      AND TABLE_NAME = p_table
+      AND CONSTRAINT_NAME = p_fkname
+      AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+  ) THEN
+    SET @sql = CONCAT('ALTER TABLE `', p_table, '` ', p_stmt);
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+  END IF;
+END$$
+
+DELIMITER ;
+
+CALL add_fk_if_missing('users','fk_users_species','ADD CONSTRAINT fk_users_species FOREIGN KEY (species_id) REFERENCES species(species_id)');
+CALL add_fk_if_missing('users','fk_users_ecosystem','ADD CONSTRAINT fk_users_ecosystem FOREIGN KEY (current_ecosystem_id) REFERENCES ecosystems(ecosystem_id)');
+
+DROP PROCEDURE add_col_if_missing;
+DROP PROCEDURE add_fk_if_missing;
+
+/* ---------- 6) USER_PREFERENCES ---------- */
+CREATE TABLE IF NOT EXISTS user_preferences (
+  preference_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  preferred_species_id INT NULL,
+  min_compatibility_score INT DEFAULT 50,
+  require_ecosystem_compatibility TINYINT(1) DEFAULT 1,
+  allow_dangerous_matches TINYINT(1) DEFAULT 0,
+  max_toxicity_level INT DEFAULT 5,
+  CONSTRAINT fk_up_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+  CONSTRAINT fk_up_species FOREIGN KEY (preferred_species_id) REFERENCES species(species_id),
+  CHECK (min_compatibility_score BETWEEN 0 AND 100),
+  CHECK (max_toxicity_level BETWEEN 1 AND 10)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 7) MATCHES ---------- */
+CREATE TABLE IF NOT EXISTS matches (
+  match_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_a_id INT NOT NULL,
+  user_b_id INT NOT NULL,
+  calculated_score INT NOT NULL,
+  ecosystem_compatibility_score INT NULL,
+  biological_compatibility_score INT NULL,
+  communication_score INT NULL,
+  match_type ENUM('Perfect','Good','Risky','Dangerous','Experimental') NOT NULL,
+  match_status ENUM('Pending','Accepted','Rejected','Blocked') DEFAULT 'Pending',
+  ai_notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_matches_a FOREIGN KEY (user_a_id) REFERENCES users(user_id),
+  CONSTRAINT fk_matches_b FOREIGN KEY (user_b_id) REFERENCES users(user_id),
+  CHECK (user_a_id <> user_b_id),
+  CHECK (calculated_score BETWEEN 0 AND 100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 8) MESSAGES ---------- */
+CREATE TABLE IF NOT EXISTS messages (
+  message_id INT AUTO_INCREMENT PRIMARY KEY,
+  match_id INT NOT NULL,
+  sender_id INT NOT NULL,
+  content TEXT NOT NULL,
+  translation_required TINYINT(1) DEFAULT 0,
+  original_language VARCHAR(30) NULL,
+  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  read_at TIMESTAMP NULL,
+  CONSTRAINT fk_messages_match FOREIGN KEY (match_id) REFERENCES matches(match_id) ON DELETE CASCADE,
+  CONSTRAINT fk_messages_sender FOREIGN KEY (sender_id) REFERENCES users(user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* ---------- 9) INDEXES ---------- */
+CREATE INDEX IF NOT EXISTS idx_users_species ON users(species_id);
+CREATE INDEX IF NOT EXISTS idx_matches_users ON matches(user_a_id, user_b_id);
+CREATE INDEX IF NOT EXISTS idx_sec_species ON species_ecosystem_compatibility(species_id);
+CREATE INDEX IF NOT EXISTS idx_scr_species_a ON species_compatibility_rules(species_a_id);
+
+SET FOREIGN_KEY_CHECKS = 1;

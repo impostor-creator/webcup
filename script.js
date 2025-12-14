@@ -72,53 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
-  /* ============================================================
-       LANGUAGE SWITCHER (BASIC)
-  ============================================================ */
-  const langSwitcher = document.getElementById("langSwitcher");
-
-  const translations = {
-    en: {
-      brand_name: "NovaSphere",
-      nav_home: "Home",
-      nav_features: "Features",
-      nav_gallery: "Gallery",
-      nav_feedback: "Feedback",
-      nav_about: "About",
-    },
-    fr: {
-      brand_name: "NovaSphere",
-      nav_home: "Accueil",
-      nav_features: "Fonctionnalités",
-      nav_gallery: "Galerie",
-      nav_feedback: "Avis",
-      nav_about: "À propos",
-    }
-  };
-
-  function applyLanguage(lang) {
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.getAttribute("data-i18n");
-      if (translations[lang] && translations[lang][key]) {
-        el.textContent = translations[lang][key];
-      }
-    });
-  }
-
-  if (langSwitcher) {
-    const savedLang = localStorage.getItem("novasphere_lang") || "en";
-    langSwitcher.value = savedLang;
-    applyLanguage(savedLang);
-
-    langSwitcher.addEventListener("change", (e) => {
-      const lang = e.target.value;
-      localStorage.setItem("novasphere_lang", lang);
-      applyLanguage(lang);
-    });
-  }
-
-
   /* ============================================================
        NAVBAR DROPDOWN (ACCOUNT)
   ============================================================ */

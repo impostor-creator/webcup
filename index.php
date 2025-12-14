@@ -10,11 +10,11 @@ $currentUser = auth_user();
 <head>
   <!-- =========================================================
        META & GLOBAL ASSETS
-       Home page for NovaSphere
+       Home page for IAstroMatch
   ========================================================== -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NovaSphere • Multi-page neon UI</title>
+  <title>IAstroMatch - Biopunk Dating Platform</title>
 
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="styles.css" />
@@ -27,7 +27,7 @@ $currentUser = auth_user();
   ========================================================== -->
   <div class="loader" id="loader">
     <div class="loader-orbit"></div>
-    <p>Booting NovaSphere...</p>
+    <p>Booting IAstroMatch...</p>
   </div>
 
   <!-- Global page transition overlay -->
@@ -44,30 +44,23 @@ $currentUser = auth_user();
     <header class="navbar">
       <div class="navbar-inner">
         <!-- Brand / logo -->
-        <div class="logo" data-i18n="brand_name">NovaSphere</div>
+        <div class="logo" data-i18n="brand_name">IAstroMatch</div>
 
         <!-- MAIN NAV LINKS -->
         <nav class="nav-links" id="navLinks">
           <a href="#hero" class="nav-link active" data-i18n="nav_home">Home</a>
           <a href="#features" class="nav-link" data-i18n="nav_features">Features</a>
-          <a href="#gallery" class="nav-link" data-i18n="nav_gallery">Gallery</a>
+          <a href="#gallery" class="nav-link" data-i18n="nav_gallery">Punks</a>
           <a href="feedback.php" class="nav-link" data-i18n="nav_feedback">Feedback</a>
           <a href="about.php" class="nav-link" data-i18n="nav_about">About</a>
         </nav>
 
         <!-- RIGHT SIDE CONTROLS -->
         <div class="nav-actions">
-          <!-- Language -->
-          <select id="langSwitcher" class="nav-select" aria-label="Language switcher">
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
-          </select>
-
           <!-- Theme -->
           <select id="themeSwitcher" class="nav-select" aria-label="Theme switcher">
-            <option value="default" data-i18n="theme_default">Default</option>
+            <option value="default" data-i18n="theme_default">Biopunk</option>
             <option value="neon" data-i18n="theme_neon">Neon</option>
-            <option value="cyber" data-i18n="theme_cyber">Cyber</option>
             <option value="sunset" data-i18n="theme_sunset">Sunset</option>
           </select>
 
@@ -145,7 +138,7 @@ $currentUser = auth_user();
 
     <!-- =====================================================
          HERO SECTION
-         - "Multi-page neon UI" intro
+         - Bio-Digital Dating Interface intro
     ========================================================== -->
     <div class="hero-outer">
       <section id="hero" class="hero">
@@ -157,24 +150,27 @@ $currentUser = auth_user();
           <!-- HERO LEFT -->
           <div class="hero-content reveal">
             <p class="hero-kicker" data-i18n="hero_kicker">
-              Welcome to the future hhhhh
+              Welcome to IAstroMatch
             </p>
 
             <h1 class="hero-title">
-              <span data-i18n="hero_title_line1">A futuristic, animated</span><br />
+              <span data-i18n="hero_title_line1">A living, evolving</span><br />
               <span class="hero-highlight">
-                Multi-page neon UI
+                Bio-Digital Dating Interface
               </span>
             </h1>
 
             <p class="hero-subtitle" data-i18n="hero_subtitle">
-              Neon glow, 3D effects, theme switching, and interactive dashboards —
-              everything wired in a way that’s easy to edit and expand later.
+              Organic textures, cellular motion, and semi-transparent layers pulse beneath every dating interaction.
+              User profiles don't simply load — they respond to interest, attraction, and mutual curiosity. 
+              Matches are formed through biological-inspired signals, adaptive patterns, and subtle mutations that evolve as
+              two individuals engage, flirt, and connect. Compatibility is experienced as chemistry, shaped by attraction, 
+              intent, and emotional resonance.
             </p>
 
             <div class="hero-actions">
               <a href="#features" class="btn btn-primary" data-i18n="btn_explore_features">
-                Explore features
+                Begin Matching
               </a>
               <a href="login.php" class="btn btn-ghost" data-i18n="btn_login_now">
                 Login &amp; try dashboards
@@ -183,23 +179,23 @@ $currentUser = auth_user();
 
             <!-- SMALL PILL LIST UNDER BUTTONS -->
             <div class="hero-footnote">
-              <span>• Multi-page structure</span> ·
-              <span>• Animated UI</span> ·
-              <span>• Demo login &amp; dashboards</span>
+              <span>• Adaptive Dating profiles</span> ·
+              <span>• Cross-species Compatibility</span> ·
+              <span>• Dashboards</span>
             </div>
 
             <!-- Stats row -->
             <div class="stats-row">
               <div class="stat">
-                <div class="stat-label">Pages</div>
+                <div class="stat-label">Potential Matches</div>
                 <div class="stat-value" data-stat-target="6">0</div>
               </div>
               <div class="stat">
-                <div class="stat-label">Themes</div>
+                <div class="stat-label">Active Matches</div>
                 <div class="stat-value" data-stat-target="4">0</div>
               </div>
               <div class="stat">
-                <div class="stat-label">Demo dashboards</div>
+                <div class="stat-label">Species Matches</div>
                 <div class="stat-value" data-stat-target="2">0</div>
               </div>
             </div>
@@ -218,32 +214,33 @@ $currentUser = auth_user();
             </div>
 
             <div class="hero-visual-top">
-              <span class="hero-pill">Live preview</span>
-              <span class="hero-pill">Front-end only</span>
+              <span class="hero-pill">Enter Symbiosis</span>
+              <span class="hero-pill">Love with no end</span>
             </div>
 
             <div class="hero-visual-body">
               <p>
-                This card represents the whole project: multiple pages, animated
-                layout, and a small fake auth system — all running only in your browser.
+                From distant galaxies to destined partners — 
+                witness how our bio-symbiotic matching algorithm connected two 
+                incompatible species and transformed cosmic tensions into interstellar romance.
               </p>
 
-              <!-- Animated mini “dashboard” inside the blank square -->
+              <!-- Animated mini "dashboard" inside the blank square -->
               <div class="hero-preview-window">
                 <div class="hero-preview-header">
                   <span class="hero-preview-dots">
                     <span></span><span></span><span></span>
                   </span>
-                  <span class="hero-preview-title">NovaSphere demo</span>
+                  <span class="hero-preview-title">IAstroMatch - Ecosystem</span>
                 </div>
 
                 <div class="hero-preview-body">
                   <div class="hero-preview-sidebar">
                     <div class="hero-preview-pill hero-preview-pill-active">
-                      Home
+                      Specimen
                     </div>
-                    <div class="hero-preview-pill">User</div>
-                    <div class="hero-preview-pill">Admin</div>
+                    <div class="hero-preview-pill">Genome</div>
+                    <div class="hero-preview-pill">Lab AI</div>
                   </div>
 
                   <div class="hero-preview-main">
@@ -251,9 +248,9 @@ $currentUser = auth_user();
                     <div class="hero-preview-bar hero-preview-bar-md"></div>
 
                     <div class="hero-preview-row">
-                      <div class="hero-preview-chip">Pages: 6</div>
-                      <div class="hero-preview-chip">Themes: 4</div>
-                      <div class="hero-preview-chip">Dashboards: 2</div>
+                      <div class="hero-preview-chip">Stability: 78%</div>
+                      <div class="hero-preview-chip">Mutation: Moderate</div>
+                      <div class="hero-preview-chip">Symbiosis: High</div>
                     </div>
 
                     <div class="hero-preview-sparkline">
@@ -268,19 +265,18 @@ $currentUser = auth_user();
               <!-- Small stacked info cards under the window -->
               <div class="hero-preview-meta">
                 <div class="hero-preview-meta-item">
-                  <strong>🌐 Pages:</strong> Home, About, Feedback, Login, User, Admin
+                  <strong>🧬 Sample:</strong> Hybrid organic / synthetic entity detected
                 </div>
                 <div class="hero-preview-meta-item">
-                  <strong>🎨 Themes:</strong> Default, Neon, Cyber, Sunset
+                  <strong>🧠 AI State:</strong> Cultivated intelligence — active analysis
                 </div>
                 <div class="hero-preview-meta-item">
-                  <strong>👤 Demo accounts:</strong>
-                  <code>admin/admin123</code>, <code>user/user123</code>
+                  <strong>⚠️ Warning:</strong>
+                  Prolonged exposure may alter both organisms
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </section>
     </div>
@@ -291,44 +287,44 @@ $currentUser = auth_user();
     ========================================================== -->
     <section class="section section-alt">
       <div class="section-header">
-        <h2>Quick highlights</h2>
+        <h2>Bio-compatibility Overview</h2>
         <p>
-          A fast overview of what’s already included before you even start
-          writing your own backend or hooking this to a database.
+          An initial overview of the living systems already integrated into IAstroMatch,
+          designed to connect incompatible species and reduce interstellar conflict
+          through biological and emotional compatibility.
         </p>
       </div>
 
       <div class="about-story-inner">
         <article class="card reveal">
-          <h3>Interactive navbar</h3>
+          <h3>Adaptive Encounter Interface</h3>
           <p>
-            Links for Home, Features and Gallery scroll on this page, while
-            Feedback and About open separate pages. The login button turns
-            into an account dropdown when you sign in.
+            Navigation and interaction adjust dynamically to the species using the platform.
+            The interface responds to biological needs, perception differences, and emotional signals.
           </p>
         </article>
 
         <article class="card reveal">
-          <h3>Theme &amp; language switch</h3>
+          <h3>Cultivated Match Intelligence</h3>
           <p>
-            Four themes and two languages (English/French) are wired in with
-            a simple dictionary in JavaScript, ready to be extended.
+            IAstroMatch uses a grown intelligence that analyzes profiles, intentions, and biological traits
+            to propose compatible, improbable, or potentially dangerous matches.
           </p>
         </article>
 
         <article class="card reveal">
-          <h3>Local feedback storage</h3>
+          <h3>Shared Biological Memory</h3>
           <p>
-            The feedback page saves comments in localStorage. The user and
-            admin dashboards read from the same data.
+            Feedback from encounters is preserved as organic memory.
+            Successful and failed matches influence future compatibility predictions across species.
           </p>
         </article>
 
         <article class="card reveal">
-          <h3>Clean file separation</h3>
+          <h3>Modular Diplomatic System</h3>
           <p>
-            Each page has its own HTML file. The main logic is in one
-            script.js and styling in one styles.css, both organized by sections.
+            Each component of the platform operates independently.
+            This allows new species, environments, or diplomatic protocols to be integrated without destabilizing the whole.
           </p>
         </article>
       </div>
@@ -349,69 +345,69 @@ $currentUser = auth_user();
       <div class="features-grid">
         <!-- Feature 1 -->
         <article class="card reveal hover-tilt">
-          <div class="card-icon">✨</div>
-          <h3 data-i18n="feature1_title">Futuristic animations</h3>
+          <div class="card-icon">🧬</div>
+          <h3 data-i18n="feature1_title">Species-Adaptive Profiles</h3>
           <p data-i18n="feature1_text">
-            Parallax, hover tilt, reveals on scroll, glowing elements — all
-            controlled by small, readable JavaScript.
+            IAstroMatch profiles are shaped by biology, not assumptions.
+            Each species defines its environment, morphology, communication method, 
+            and biological constraints to ensure accurate compatibility analysis.
           </p>
         </article>
 
         <!-- Feature 2 -->
         <article class="card reveal hover-tilt">
-          <div class="card-icon">🗺️</div>
-          <h3 data-i18n="feature2_title">Multi-page structure</h3>
+          <div class="card-icon">🧠</div>
+          <h3 data-i18n="feature2_title">Machine-Learning-Assisted Compatibility Testing</h3>
           <p data-i18n="feature2_text">
-            Separate files for Home, About, Feedback, Login, User, Admin —
-            easy to open and edit individually.
+            IAstroMatch uses a lightweight machine-learning model to assist compatibility analysis.
+            The model evaluates biological traits, environmental tolerance, and user intent to estimate
+            match viability and identify potential risks.
           </p>
         </article>
 
         <!-- Feature 3 -->
         <article class="card reveal hover-tilt">
-          <div class="card-icon">🧱</div>
-          <h3 data-i18n="feature3_title">Clean organization</h3>
+          <div class="card-icon">⚠️</div>
+          <h3 data-i18n="feature3_title">Biological & Diplomatic Risk Indicators</h3>
           <p data-i18n="feature3_text">
-            Sections are labeled with comments in HTML, CSS, and JS so even a
-            new person can understand the structure quickly.
+            Compatibility is not always safe.
+            The system highlights possible biological rejection, environmental incompatibility,
+            or diplomatic instability before first contact occurs.
           </p>
         </article>
 
         <!-- Extra feature 4 -->
         <article class="card reveal hover-tilt">
-          <div class="card-icon">📊</div>
-          <h3>Dashboard-ready</h3>
+          <div class="card-icon">⚗️</div>
+          <h3>Match Outcome Preview</h3>
           <p>
-            Simple user and admin pages are already built. You can later plug
-            them into your own backend and turn them into real dashboards.
+            Before committing to a match, users can preview a projected outcome.
+            This estimate provides guidance on stability, coexistence potential, and overall compatibility.
           </p>
         </article>
 
         <!-- Extra feature 5 -->
         <article class="card reveal hover-tilt">
           <div class="card-icon">🧪</div>
-          <h3>Safe playground</h3>
+          <h3>Data Input Constraints</h3>
           <p>
-            Because everything is on the front-end, you can try ideas and
-            break stuff without affecting any real server.
+            Compatibility results are based on the information provided by each species.
+            Incomplete or ambiguous data may reduce accuracy and increase uncertainty in the analysis.
           </p>
         </article>
 
         <!-- Extra feature 6 -->
         <article class="card reveal hover-tilt">
-          <div class="card-icon">🔧</div>
-          <h3>Easy to modify</h3>
+          <div class="card-icon">🌍</div>
+          <h3>Environmental Compatibility Filtering</h3>
           <p>
-            Need another page, section or card? Copy, paste, rename the
-            section in comments and adjust the text.
+            Matches are filtered based on atmospheric, thermal, and environmental constraints
+            to prevent immediate biological rejection.
           </p>
         </article>
       </div>
     </section>
 
-    <!-- =====================================================
-         GALLERY SECTION (CAROUSEL)
-    ========================================================== -->
     <!-- =====================================================
          GALLERY SECTION (INTERACTIVE GRID)
     ========================================================== -->
@@ -516,7 +512,6 @@ $currentUser = auth_user();
       </div>
     </section>
 
-
     <!-- =====================================================
          WORKFLOW / STEPS SECTION
     ========================================================== -->
@@ -572,7 +567,7 @@ $currentUser = auth_user();
         <h2>Ready to customize everything?</h2>
         <p>
           Every image, sentence, color and layout block here is just a placeholder.
-          Keep what you like, remove what you don’t, and plug in your own ideas.
+          Keep what you like, remove what you don't, and plug in your own ideas.
         </p>
         <div class="hero-actions">
           <a href="about.html" class="btn btn-primary">Learn more about this setup</a>
@@ -596,7 +591,7 @@ $currentUser = auth_user();
       <div class="assistant-body">
         <div class="assistant-messages" id="assistantMessages">
           <div class="assistant-message assistant-message-bot">
-            <p>Hi! I’m your NovaSphere helper. Ask what you can do on this page.</p>
+            <p>Hi! I'm your IAstroMatch helper. Ask what you can do on this page.</p>
           </div>
         </div>
         <form class="assistant-form" id="assistantForm">
@@ -625,7 +620,7 @@ $currentUser = auth_user();
     <footer class="footer">
       <p>
         © <span id="year"></span>
-        <span data-i18n="footer_text">NovaSphere • Built step by step with you.</span>
+        <span data-i18n="footer_text">IAstroMatch • Built for interstellar connections.</span>
       </p>
     </footer>
   </div>
@@ -636,5 +631,4 @@ $currentUser = auth_user();
   <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
   <script src="script.js"></script>
 </body>
-
 </html>

@@ -80,15 +80,14 @@ body {
 /* Default theme variables */
 :root {
   --bg: #020617;
-  --bg-elevated: rgba(15, 23, 42, 0.93);
-  --bg-soft: rgba(15, 23, 42, 0.75);
+  --bg-elevated: rgba(9, 9, 11, 0.98);
+  --bg-soft: rgba(9, 9, 11, 0.9);
   --text: #e5e7eb;
   --muted: #9ca3af;
-  --border-subtle: rgba(148, 163, 184, 0.4);
-  --accent: #6366f1;
-  --accent2: #ec4899;
-  --accent-soft: rgba(99, 102, 241, 0.25);
-  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+  --border-subtle: rgba(94, 234, 212, 0.6);
+  --accent: #22c55e;
+  --accent2: #0ea5e9;
+  --accent-soft: rgba(34, 197, 94, 0.18);
 }
 
 /* Neon theme */
@@ -102,19 +101,6 @@ html[data-theme="neon"] {
   --accent: #22d3ee;
   --accent2: #a855f7;
   --accent-soft: rgba(34, 211, 238, 0.2);
-}
-
-/* Cyber theme */
-html[data-theme="cyber"] {
-  --bg: #020617;
-  --bg-elevated: rgba(9, 9, 11, 0.98);
-  --bg-soft: rgba(9, 9, 11, 0.9);
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-  --border-subtle: rgba(94, 234, 212, 0.6);
-  --accent: #22c55e;
-  --accent2: #0ea5e9;
-  --accent-soft: rgba(34, 197, 94, 0.18);
 }
 
 /* Sunset theme */
@@ -2769,4 +2755,130 @@ html[data-theme="sunset"] .bg-particles {
   .command-panel {
     width: calc(100% - 2.5rem);
   }
+}
+
+/* ============================================================
+   BIOPUNK AUTH FORMS OVERRIDE (no HTML changes)
+   Targets: .login-card/.login-form and .auth-card/.auth-form
+   ============================================================ */
+
+.login-card,
+.auth-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px !important;
+  border: 1px solid rgba(79,179,162,0.26) !important;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(63,166,107,0.18), transparent 55%),
+    radial-gradient(circle at 82% 75%, rgba(79,179,162,0.14), transparent 60%),
+    radial-gradient(circle at 55% 10%, rgba(138,47,47,0.14), transparent 58%),
+    rgba(8,21,19,0.88) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,0.65) !important;
+  backdrop-filter: blur(14px);
+}
+
+.login-card::before,
+.auth-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.22;
+  background:
+    radial-gradient(circle at 20% 25%, rgba(63,166,107,0.40), transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(79,179,162,0.32), transparent 52%),
+    radial-gradient(circle at 58% 18%, rgba(138,47,47,0.26), transparent 58%);
+  mix-blend-mode: screen;
+}
+
+/* Titles/subtitles */
+.login-card h1,
+.auth-title {
+  color: rgba(230,226,216,0.98);
+}
+
+.login-card > p,
+.auth-subtitle {
+  color: rgba(161,166,160,0.95) !important;
+}
+
+/* Inputs */
+.login-form input,
+.auth-form input,
+.auth-form select,
+.auth-form textarea,
+.login-form select,
+.login-form textarea {
+  width: 100%;
+  border-radius: 14px !important;
+  border: 1px solid rgba(79,179,162,0.26) !important;
+  background: rgba(8,21,19,0.82) !important;
+  color: rgba(230,226,216,0.98) !important;
+  box-shadow: inset 0 1px 0 rgba(230,226,216,0.05);
+}
+
+.login-form input::placeholder,
+.auth-form input::placeholder {
+  color: rgba(161,166,160,0.75);
+}
+
+.login-form input:focus,
+.auth-form input:focus {
+  outline: none;
+  border-color: rgba(63,166,107,0.70) !important;
+  box-shadow:
+    0 0 0 3px rgba(63,166,107,0.18),
+    inset 0 1px 0 rgba(230,226,216,0.06);
+}
+
+/* Buttons */
+.btn-primary,
+.auth-submit,
+.login-btn-row .btn.btn-primary {
+  border-radius: 999px !important;
+  border: 1px solid rgba(63,166,107,0.35) !important;
+  background: linear-gradient(135deg, rgba(138,47,47,0.92), rgba(179,90,46,0.88)) !important;
+  color: rgba(230,226,216,0.98) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+}
+
+.btn-primary:hover,
+.auth-submit:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+/* Links */
+.auth-link,
+.login-extra-row .auth-link {
+  color: rgba(79,179,162,0.95) !important;
+}
+
+.auth-link:hover {
+  color: rgba(63,166,107,0.95) !important;
+}
+
+/* Alerts (forgot/reset messages) */
+.auth-alert,
+.form-error,
+.login-error,
+.form-success,
+.login-success {
+  border-radius: 16px !important;
+  border: 1px solid rgba(79,179,162,0.22);
+  background: rgba(8,21,19,0.70);
+  color: rgba(230,226,216,0.98);
+}
+
+.auth-alert-error {
+  border-color: rgba(138,47,47,0.55) !important;
+}
+
+.auth-alert-success {
+  border-color: rgba(63,166,107,0.55) !important;
+}
+
+.auth-alert-info {
+  border-color: rgba(79,179,162,0.45) !important;
 }
