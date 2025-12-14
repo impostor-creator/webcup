@@ -1,14 +1,27 @@
 <?php
 // ============================================================
 // USER DASHBOARD - IASTROMATCH BIOPUNK
+// Simplified version that works without database
 // ============================================================
-// Uses real auth now (SQLite). This page still shows mostly
-// demo content, but the logged-in user data is real.
+session_start();
 
-require_once __DIR__ . '/auth.php';
-auth_require_login();
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
 
-$user = auth_user();
+// Get user data from session
+$user = [
+    'id' => $_SESSION['user_id'],
+    'username' => $_SESSION['username'] ?? 'Guest',
+    'email' => $_SESSION['email'] ?? 'guest@example.com',
+    'species' => $_SESSION['species'] ?? 'Grafted',
+    'role' => $_SESSION['role'] ?? 'user',
+    'theme' => $_SESSION['theme'] ?? 'biopunk',
+    'language' => $_SESSION['language'] ?? 'en',
+    'avatar' => $_SESSION['avatar'] ?? 'spark'
+];
 
 // Simulated data (replace with database queries later)
 $announcements = [
@@ -78,16 +91,16 @@ if ($totalUserFeedback >= 5) $badge = "pro";
   <!-- Biopunk CSS -->
   <style>
     :root {
-        --bio-dark: #0E1F1A;
-        --bio-card: #102821;
-        --bio-green: #3FA66B;
-        --bio-cyan: #4FB3A2;
-        --bio-mid: #1C3A2E;
-        --bio-light: #7A9C7D;
-        --bio-text: #E6E2D8;
-        --bio-warning: #9BAA4D;
-        --bio-error: #9B2A4D;
-        --bio-glow: rgba(63, 166, 107, 0.3);
+        --bio-dark: #102217ff;
+            --bio-card: #2a413aff;
+            --bio-green: rgba(255, 255, 255, 1);
+            --bio-cyan: #3fcc8aff;
+            --bio-mid: #2f8f6cff;
+            --bio-light: #7A9C7D;
+            --bio-text: #ffffffff;
+            --bio-warning: #9BAA4D;
+            --bio-error: #9B2A4D;
+            --bio-glow: rgba(63, 166, 107, 0.3);
     }
     
     * {
@@ -351,10 +364,9 @@ if ($totalUserFeedback >= 5) $badge = "pro";
         </a>
         <a href="#compatibility" class="sidebar-link">
           <span>⚗️</span> <span>Compatibility</span>
+        
         </a>
-        <a href="#settings" class="sidebar-link">
-          <span>⚙️</span> <span>Settings</span>
-        </a>
+        
         <a href="logout.php" class="sidebar-link">
           <span>🚪</span> <span>Logout</span>
         </a>
@@ -533,33 +545,7 @@ if ($totalUserFeedback >= 5) $badge = "pro";
         </div>
       </div>
       
-      <!-- Settings -->
-      <div class="card" id="settings">
-        <div class="card-header">
-          <span>⚙️</span> Settings
-        </div>
-        
-        <div style="max-width: 400px;">
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; color: var(--bio-cyan); margin-bottom: 8px;">Theme</label>
-            <select style="
-              width: 100%;
-              padding: 12px;
-              background: rgba(28, 58, 46, 0.7);
-              border: 1px solid var(--bio-green);
-              border-radius: 10px;
-              color: var(--bio-text);
-            ">
-              <option value="biopunk" <?= $user['theme'] === 'biopunk' ? 'selected' : '' ?>>Biopunk</option>
-              <option value="neon">Neon</option>
-              <option value="sunset">Sunset</option>
-            </select>
-          </div>
-          
-          <button class="btn btn-primary" style="width: 100%;">
-            Save Settings
-          </button>
-        </div>
+      
       </div>
     </main>
   </div>
