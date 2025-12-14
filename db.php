@@ -1,30 +1,26 @@
 <?php
-// ============================================================
-// DATABASE CONNECTION (PDO)
-// ============================================================
-
-$DB_HOST = "localhost";
-$DB_NAME = "novasphere";
-$DB_USER = "root";
-$DB_PASS = "";
-
-// Optional: enable errors in dev
-$DEV_MODE = true;
+// =========================================================
+// db.php — Single PDO connection helper (SQLite)
+// ---------------------------------------------------------
+// This project was mixing MySQL constants (config.php) and
+// demo/session auth. To make everything actually persist,
+// we use ONE database: SQLite file stored in /database.
+// =========================================================
 
 function db(): PDO {
-    global $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS, $DEV_MODE;
-
     static $pdo = null;
-    if ($pdo !== null) return $pdo;
+    if ($pdo instanceof PDO) return $pdo;
 
-    $dsn = "mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4";
+    $dbDir  = __DIR__ . '/database';
+    $dbPath = $dbDir . '/iastromatch.db';
 
-    $options = [
-        PDO::ATTR_ERRMODE            => $DEV_MODE ? PDO::ERRMODE_EXCEPTION : PDO::ERRMODE_SILENT,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ];
+    if (!is_dir($dbDir)) {
+        mkdir($dbDir, 0755, true);
+    }
 
-    $pdo = new PDO($dsn, $DB_USER, $DB_PASS, $options);
+    $pdo = new PDO('sqlite:' . $dbPath);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $pdo->exec('PRAGMA foreign_keys = ON');
     return $pdo;
 }

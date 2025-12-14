@@ -1,27 +1,14 @@
 <?php
 // ============================================================
 // USER DASHBOARD - IASTROMATCH BIOPUNK
-// Simplified version that works without database
 // ============================================================
-session_start();
+// Uses real auth now (SQLite). This page still shows mostly
+// demo content, but the logged-in user data is real.
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
+require_once __DIR__ . '/auth.php';
+auth_require_login();
 
-// Get user data from session
-$user = [
-    'id' => $_SESSION['user_id'],
-    'username' => $_SESSION['username'] ?? 'Guest',
-    'email' => $_SESSION['email'] ?? 'guest@example.com',
-    'species' => $_SESSION['species'] ?? 'Grafted',
-    'role' => $_SESSION['role'] ?? 'user',
-    'theme' => $_SESSION['theme'] ?? 'biopunk',
-    'language' => $_SESSION['language'] ?? 'en',
-    'avatar' => $_SESSION['avatar'] ?? 'spark'
-];
+$user = auth_user();
 
 // Simulated data (replace with database queries later)
 $announcements = [
